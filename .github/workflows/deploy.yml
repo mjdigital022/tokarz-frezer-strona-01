@@ -1,1 +1,24 @@
+name: Deploy strony na cyber_folks
 
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  sftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+
+      - name: Wgraj przez SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        with:
+          server: ${{ secrets.SFTP_SERVER_01 }}
+          username: ${{ secrets.SFTP_USERNAME_01 }}
+          password: ${{ secrets.SFTP_PASSWORD_01 }}
+          port: 222
+          local_path: './*'
+          remote_path: 'domains/tokarz-frezer.pl/public_html/'
+          sftp_only: true
+          
